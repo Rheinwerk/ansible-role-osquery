@@ -1,0 +1,17 @@
+# vim: set ft=ansible
+---
+- name: Set up osquery Apt Repository Key
+  ansible.builtin.apt_key:
+    id: "{{ _osquery.apt_repo.key_id }}"
+    keyserver: "keyserver.ubuntu.com"
+    state: present
+
+- name: Set up osquery Apt Repository
+  ansible.builtin.apt_repository:
+    repo: "{{ _osquery.apt_repo.repo_line }}"
+    state: present
+
+- name: Install osquery
+  ansible.builtin.apt:
+    pkg: osquery
+    state: present
