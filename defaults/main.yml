@@ -1,4 +1,8 @@
 _osquery:
-  apt_repo:
-    key_id: '1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B'
-    repo_line: 'deb [arch=amd64] https://pkg.osquery.io/deb deb main'
+  deb822_repository:
+    - name: osquery
+      types: deb
+      uris: https://pkg.osquery.io/deb
+      suites: deb
+      components: main
+      signed_by: https://pkg.osquery.io/deb/pubkey.gpg

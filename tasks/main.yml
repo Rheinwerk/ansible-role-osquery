@@ -1,17 +1,18 @@
 # vim: set ft=ansible
 ---
 - name: Set up osquery Apt Repository Key
-  ansible.builtin.apt_key:
-    id: "{{ _osquery.apt_repo.key_id }}"
-    keyserver: "keyserver.ubuntu.com"
-    state: present
-
-- name: Set up osquery Apt Repository
-  ansible.builtin.apt_repository:
-    repo: "{{ _osquery.apt_repo.repo_line }}"
-    state: present
+  ansible.builtin.deb822_repository:
+    name: "{{ item.name }}"
+    types: deb
+    uris: "{{ item.uris }}"
+    suites: "{{ item.suites }}"
+    components: "{{ item.components }}"
+    signed_by: "{{ item.signed_by }}"
+  when: item.name is defined
+  with_items: "{{ _osquery.deb822_repository | default([]) }}"
 
 - name: Install osquery
   ansible.builtin.apt:
     pkg: osquery
     state: present
+    update_cache: true
